@@ -1,0 +1,75 @@
+Browserify is a module bundler.A module bundler is a tool that takes pieces of JavaScript 
+and their dependencies and bundles them into a single file, usually for use in the browser. 
+
+Tsify is Browserify plugin for compiling TypeScript files.
+
+Why u need a module bundler-> One of the primary reason is to reduce number of server request which in turn reduce loading time of webpages and better user experience.
+each of those files has to be included in your main HTML file in a <script> tag, which is then loaded by the browser when a user visits your home page. Having separate <script> tags for each file means that the browser has to load each file individually: one… by… one, which is very time consuming.
+With this u can load single javascript file in html page 
+<script src="bundle.js"></script> 
+instead of several different javascript files there by reducing number of server of requests.
+
+Below demo steps will compile ts files and bundle them into single .js file
+***************************************************************************
+
+Steps->
+step 1. 
+Create Browserify folder.
+npm init -y
+step 2. 
+Install Tsify using NPM (Node.js Package Manager) using the following command:
+npm install tsify
+step 3. 
+To install Browserify ->
+npm install -g browserify
+
+step 4.
+create tsconfig.json file by->
+tsc --init
+
+step 5.
+In tsconfig.json file do below changes(where main.ts is main entry of an application)->
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "node",
+	      "sourceMap": true
+    },
+    "files": [              
+        "./main.ts"
+    ]
+}
+
+step 6.
+Create product.ts in Browserify folder and add following source code in it->
+export class Product {
+ 
+    public Id : number=99;
+    public Title : string="Books";
+    public Price : number=8000;    
+  }
+
+step 7.
+Create main.ts in Browserify folder and add following source code in it->
+
+export { };
+import {Product} from './product';
+let value1 = 5;
+let value2 =10;
+console.log(value1+value2);
+function getProduct(){
+    let p = new Product();
+    p.Id = 2;
+    p.Price= 5000;
+    p.Title="Cricket Bat";   
+    return p;      
+  }
+  var p1=getProduct();
+  console.log(p1.Title); 
+
+step 8.
+Use the following command to compile your code and output the result in a file named bundle.js.
+browserify main.ts -p [ tsify --noImplicitAny ] > bundle.js
+
+This bundle.js file can be transported to any other machine/folder and executed independently 
+where as same can not be done with main.ts file(main.ts file will need product.ts as well).
